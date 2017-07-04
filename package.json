@@ -1,6 +1,6 @@
 {
   "name": "apig-pack",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Packs API Gateway endpoints to CommonJS module.",
   "scripts": {
     "bundle": "webpack"
