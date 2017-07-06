@@ -6,12 +6,19 @@ A simple CLI to package up one or more API Gateway SDKs using webpack.
 yarn add -D apig-pack
 ```
 
-# CLI
+# Usage
 ```
-apig-pack -a.[libraryName1] restApiId1.stageName1.region \
+./node_modules/apig-pack/bin/apig-pack.js -a.[libraryName1] restApiId1.stageName1.region \
 -a.[libraryName2] restApiId2.stageName2.region ...
 ```
 Note: The library name is an arbitrary name used to place the compiled file.
+
+To use with React Native, it must be built with the web target and enable external modules
+in webpack build. In addition to the example above, add the code below to the command:
+
+```
+... -t web
+```
 
 # Use the SDK in your project
 

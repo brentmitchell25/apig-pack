@@ -65,12 +65,6 @@ Promise.all(
         fs.writeFileSync(path.join(tmpDir, zipDir), value.body);
         var zip = new AdmZip(path.join(tmpDir, zipDir));
         zip.extractAllTo(path.join(__dirname, "..", "build", dir));
-        console.log(
-          path.join(__dirname, "..", "build", "**", "sigV4Client.js")
-        );
-        console.log(
-          glob.sync(path.join(__dirname, "..", "build", "**", "sigV4Client.js"))
-        );
         var sigV4ClientPath = glob.sync(
           path.join(__dirname, "..", "build", "**", "sigV4Client.js")
         )[0];
@@ -81,7 +75,7 @@ Promise.all(
           .readFileSync(sigV4ClientPath, "utf-8")
           .replace(
             /var parser[\s\S]*?awsSigV4Client.endpoint;/g,
-            "var parser = url.parse(awsSigV4Client.endpoint);"
+            "var parser = _url.parse(awsSigV4Client.endpoint);"
           )
           .replace(/body = '';/g, "body = undefined;");
         var simpleHttpClient = fs
@@ -103,7 +97,8 @@ Promise.all(
         webpackConfig = Object.assign({}, webpackConfig, {
           externals: {
             axios: "axios",
-            "crypto-js": "crypto-js"
+            "crypto-js": "crypto-js",
+            url: "url"
           }
         });
       }
@@ -121,23 +116,23 @@ Promise.all(
   })
   .then(() => {
     // Copy files and clean up build process
-    // glob
-    //   .sync(path.join(__dirname, "..", "dist", "**", "apigClient.js"))
-    //   .map((file, idx) =>
-    //     fs.copySync(
-    //       file,
-    //       path.join(
-    //         __dirname,
-    //         "..",
-    //         "..",
-    //         "..",
-    //         argv.d,
-    //         Object.keys(argv.a)[idx],
-    //         "apigClient.js"
-    //       )
-    //     )
-    //   );
-    // fs.removeSync(path.join(path.join(__dirname, "..", "build")));
-    // fs.removeSync(path.join(path.join(__dirname, "..", "dist")));
+    glob
+      .sync(path.join(__dirname, "..", "dist", "**", "apigClient.js"))
+      .map((file, idx) =>
+        fs.copySync(
+          file,
+          path.join(
+            __dirname,
+            "..",
+            "..",
+            "..",
+            argv.d,
+            Object.keys(argv.a)[idx],
+            "apigClient.js"
+          )
+        )
+      );
+    fs.removeSync(path.join(path.join(__dirname, "..", "build")));
+    fs.removeSync(path.join(path.join(__dirname, "..", "dist")));
   })
   .catch(e => console.log(e));
