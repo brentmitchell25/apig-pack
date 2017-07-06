@@ -20,6 +20,12 @@ in webpack build. In addition to the example above, add the code below to the co
 ... -t web
 ```
 
+# Example
+Add script to pacakge.json:
+```
+"pack:dev": "apig-pack -a.apig abcd1122.dev.us-east-1 -d js/lib",
+```
+
 # Use the SDK in your project
 
 To initialize the most basic form of the SDK:
