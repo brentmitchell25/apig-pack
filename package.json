@@ -17,8 +17,8 @@
     "fs-extra": "^3.0.1",
     "glob": "^7.1.2",
     "imports-loader": "https://github.com/webpack-contrib/imports-loader",
-    "jsdom": "^11.0.0",
     "lodash": "^4.17.4",
+    "url": "^0.11.0",
     "webpack": "^3.0.0",
     "yargs": "^8.0.2"
   }
