@@ -30,6 +30,9 @@ var argv = require("yargs")
   .alias("t", "target")
   .describe("t", "Specifies the webpack build target.")
   .default("t", "node")
+  .alias("r", "retrie")
+  .describe("r", "Specifies the number of retries.")
+  .default("r", "3")
   .demand("a")
   .help("h").argv;
 
@@ -71,16 +74,29 @@ Promise.all(
         var simpleHttpClientPath = glob.sync(
           path.join(__dirname, "..", "build", "**", "simpleHttpClient.js")
         )[0];
+
         var sigV4Client = fs
           .readFileSync(sigV4ClientPath, "utf-8")
+          // Replace document reference since it is not available in node
           .replace(
             /var parser[\s\S]*?awsSigV4Client.endpoint;/g,
             "var parser = _url.parse(awsSigV4Client.endpoint);"
           )
-          .replace(/body = '';/g, "body = undefined;");
+          // body should be undefined to match RFC
+          .replace(/body = '';/g, "body = undefined;")
+          // Add retry logic
+          .replace(
+            /var apiGateway = apiGateway \|\| {};/g,
+            "$&\r\naxiosRetry(axios, { retries: 3 });"
+          );
+
         var simpleHttpClient = fs
           .readFileSync(simpleHttpClientPath, "utf-8")
-          .replace(/body = '';/g, "body = undefined;");
+          .replace(/body = '';/g, "body = undefined;")
+          .replace(
+            /var apiGateway = apiGateway \|\| {};/g,
+            "$&\r\naxiosRetry(axios, { retries: 3 });"
+          );
         fs.writeFileSync(sigV4ClientPath, sigV4Client, { encoding: "utf-8" });
         fs.writeFileSync(simpleHttpClientPath, simpleHttpClient, {
           encoding: "utf-8"
@@ -99,6 +115,22 @@ Promise.all(
             axios: "axios",
             "crypto-js": "crypto-js",
             url: "url"
+          }
+        });
+      }
+      if (argv.r) {
+        webpackConfig = Object.assign({}, webpackConfig, {
+          module: {
+            loaders: webpackConfig.module.loaders.map(loaderObj => {
+              if (
+                loaderObj.loader !==
+                "imports-loader?apiGateway.core.utils=./utils,axios=axios"
+              ) {
+                return loaderObj;
+              }
+              loaderObj.loader += ",axiosRetry=axios-retry";
+              return loaderObj;
+            })
           }
         });
       }
