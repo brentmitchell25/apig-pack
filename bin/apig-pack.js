@@ -95,7 +95,7 @@ Promise.all(
           .replace(/body = '';/g, 'body = undefined;')
           .replace(
             /var apiGateway = apiGateway \|\| {};/g,
-            '$&\r\naxiosRetry(axios, { retries: 3 });'
+            '$&\r\naxiosRetry(axios, { retries: ' + argv.r + ' });'
           );
         fs.writeFileSync(sigV4ClientPath, sigV4Client, { encoding: 'utf-8' });
         fs.writeFileSync(simpleHttpClientPath, simpleHttpClient, {
