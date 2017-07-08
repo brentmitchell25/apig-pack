@@ -87,7 +87,7 @@ Promise.all(
           // Add retry logic
           .replace(
             /var apiGateway = apiGateway \|\| {};/g,
-            '$&\r\naxiosRetry(axios, { retries: 3 });'
+            '$&\r\naxiosRetry(axios, { retries: ' + argv.r + ' });'
           );
 
         var simpleHttpClient = fs
