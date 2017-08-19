@@ -1,12 +1,18 @@
 {
   "name": "apig-pack",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Packs API Gateway endpoints to CommonJS module.",
   "scripts": {
     "bundle": "webpack"
   },
   "license": "MIT",
   "bin": "./bin/apig-pack.js",
+  "keywords": [
+    "api-gateway",
+    "apigateway",
+    "aws-api-gateway-client",
+    "aws-api-gateway"
+  ],
   "devDependencies": {},
   "dependencies": {
     "adm-zip": "^0.4.7",
