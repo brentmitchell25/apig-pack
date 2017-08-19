@@ -162,7 +162,7 @@ Promise.all(
           )
         )
       );
-    fs.removeSync(path.join(path.join(__dirname, '..', 'build')));
-    fs.removeSync(path.join(path.join(__dirname, '..', 'dist')));
+    fs.removeSync(path.join(__dirname, '..', 'build'));
+    fs.removeSync(path.join(__dirname, '..', 'dist'));
   })
   .catch(e => console.log(e));
