@@ -18,7 +18,9 @@
     "type": "git",
     "url": "https://github.com/brentmitchell25/apig-pack.git"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "imports-loader": "^0.8.0"
+  },
   "dependencies": {
     "adm-zip": "^0.4.7",
     "aws-sdk": "^2.212.1",
@@ -28,7 +30,6 @@
     "exports-loader": "^0.7.0",
     "fs-extra": "^5.0.0",
     "glob": "^7.1.2",
-    "imports-loader": "https://github.com/webpack-contrib/imports-loader",
     "lodash": "^4.17.5",
     "url": "^0.11.0",
     "webpack": "^4.1.1",
