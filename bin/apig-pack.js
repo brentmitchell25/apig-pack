@@ -45,7 +45,7 @@ var argv = require('yargs')
     }
     keys[api[0]] =  api.slice(1,4).join('.');
   });
-  console.log('keys', keys)
+
   Promise.all(
   // Retrieve SDKs
   Object.keys(keys).map(key => {
@@ -157,15 +157,7 @@ var argv = require('yargs')
     glob
       .sync(path.join(__dirname, '..', 'dist', '**', 'apigClient.js'))
       .map((file, idx) =>
-        console.log(path.join(
-          __dirname,
-          '..',
-          '..',
-          '..',
-          argv.d,
-          Object.keys(keys)[idx],
-          'apigClient.js'
-        )) || fs.copySync(
+        fs.copySync(
           file,
           path.join(
             __dirname,
@@ -180,5 +172,4 @@ var argv = require('yargs')
       );
     fs.removeSync(path.join(__dirname, '..', 'build'));
     fs.removeSync(path.join(__dirname, '..', 'dist'));
-  })
-  .catch(e => console.log(e));
+  });
