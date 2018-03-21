@@ -19,7 +19,6 @@
     "url": "https://github.com/brentmitchell25/apig-pack.git"
   },
   "devDependencies": {
-    "imports-loader": "^0.8.0"
   },
   "dependencies": {
     "adm-zip": "^0.4.7",
@@ -27,6 +26,7 @@
     "axios": "^0.18.0",
     "axios-retry": "^3.0.2",
     "crypto-js": "^3.1.9-1",
+    "imports-loader": "^0.8.0",
     "exports-loader": "^0.7.0",
     "fs-extra": "^5.0.0",
     "glob": "^7.1.2",
