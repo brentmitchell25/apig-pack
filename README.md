@@ -8,8 +8,8 @@ yarn add -D apig-pack
 
 # Usage
 ```
-./node_modules/apig-pack/bin/apig-pack.js -a.[libraryName1] restApiId1.stageName1.region \
--a.[libraryName2] restApiId2.stageName2.region ...
+./node_modules/apig-pack/bin/apig-pack.js -a [libraryName1].restApiId1.stageName1.region \
+-a [libraryName2].restApiId2.stageName2.region ...
 ```
 Note: The library name is an arbitrary name used to place the compiled file.
 
@@ -23,7 +23,7 @@ in webpack build. In addition to the example above, add the code below to the co
 # Example
 Add script to pacakge.json:
 ```
-"pack:dev": "apig-pack -a.apig abcd1122.dev.us-east-1 -d js/lib",
+"pack:dev": "apig-pack -a apig.abcd1122.dev.us-east-1 -d js/lib",
 ```
 
 # Use the SDK in your project
@@ -57,7 +57,7 @@ var additionalParams = {
     }
 };
 
-apigClient.methodName(params, body, additionalParams)
+apigClient.methodName(params, body, additionalParams) // e.g. apigClient.userGet or apigClient.userPost
     .then(function(result){
         //This is where you would put a success callback
     }).catch( function(result){
