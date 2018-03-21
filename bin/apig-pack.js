@@ -36,15 +36,24 @@ var argv = require('yargs')
   .demand('a')
   .help('h').argv;
 
-Promise.all(
-  // Retrieve SDKs
-  Object.keys(argv.a).map(key => {
-    var restApiId = argv.a[key].split('.')[0];
-    var stageName = argv.a[key].split('.')[1];
-    var region = argv.a[key].split('.')[2];
+  var keys = {};
+  argv.a.forEach((key, idx) => {
+    var api = key.split('.');
 
+    if(api.length % 4 !== 0) {
+      throw new Error('Must have 4 parameters for api parameter');
+    }
+    keys[api[0]] =  api.slice(1,4).join('.');
+  });
+
+  Promise.all(
+  // Retrieve SDKs
+  Object.keys(keys).map(key => {
+    var restApiId = keys[key].split('.')[0];
+    var stageName = keys[key].split('.')[1];
+    var region = keys[key].split('.')[2];
     var apigateway = new (require('aws-sdk/clients/apigateway'))({
-      region
+      region: region
     });
 
     return apigateway
@@ -58,10 +67,9 @@ Promise.all(
 )
   .then(data => {
     // Extract zips to build directory
-    var keys = Object.keys(argv.a);
     return data.map((value, idx) => {
       return new Promise((resolve, reject) => {
-        var dir = keys[idx];
+        var dir = Object.keys(keys)[idx];
         var zipDir = `${dir}.zip`;
         var tmpDir = path.join(os.tmpdir());
 
@@ -120,15 +128,15 @@ Promise.all(
       }
       webpackConfig = Object.assign({}, webpackConfig, {
         module: {
-          loaders: webpackConfig.module.loaders.map(loaderObj => {
+          rules: webpackConfig.module.rules.map(rulesObj => {
             if (
-              loaderObj.loader !==
+              rulesObj.loader !==
               'imports-loader?apiGateway.core.utils=./utils,axios=axios'
             ) {
-              return loaderObj;
+              return rulesObj;
             }
-            loaderObj.loader += ',axiosRetry=axios-retry';
-            return loaderObj;
+            rulesObj.loader += ',axiosRetry=axios-retry';
+            return rulesObj;
           })
         }
       });
@@ -157,12 +165,11 @@ Promise.all(
             '..',
             '..',
             argv.d,
-            Object.keys(argv.a)[idx],
+            Object.keys(keys)[idx],
             'apigClient.js'
           )
         )
       );
     fs.removeSync(path.join(__dirname, '..', 'build'));
     fs.removeSync(path.join(__dirname, '..', 'dist'));
-  })
-  .catch(e => console.log(e));
+  });

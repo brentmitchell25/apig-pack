@@ -1,10 +1,11 @@
 {
   "name": "apig-pack",
-  "version": "0.1.7",
+  "version": "1.0.0",
   "description": "Packs API Gateway endpoints to CommonJS module.",
   "scripts": {
     "bundle": "webpack"
   },
+  "homepage": "https://github.com/brentmitchell25/apig-pack",
   "license": "MIT",
   "bin": "./bin/apig-pack.js",
   "keywords": [
@@ -13,20 +14,24 @@
     "aws-api-gateway-client",
     "aws-api-gateway"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brentmitchell25/apig-pack.git"
+  },
   "devDependencies": {},
   "dependencies": {
     "adm-zip": "^0.4.7",
-    "aws-sdk": "^2.80.0",
-    "axios": "^0.16.2",
-    "axios-retry": "^2.0.1",
+    "aws-sdk": "^2.212.1",
+    "axios": "^0.18.0",
+    "axios-retry": "^3.0.2",
     "crypto-js": "^3.1.9-1",
-    "exports-loader": "^0.6.4",
-    "fs-extra": "^3.0.1",
+    "exports-loader": "^0.7.0",
+    "fs-extra": "^5.0.0",
     "glob": "^7.1.2",
-    "imports-loader": "https://github.com/webpack-contrib/imports-loader",
-    "lodash": "^4.17.4",
+    "imports-loader": "^0.8.0",
+    "lodash": "^4.17.5",
     "url": "^0.11.0",
-    "webpack": "^3.0.0",
-    "yargs": "^8.0.2"
+    "webpack": "^4.1.1",
+    "yargs": "^11.0.0"
   }
 }
